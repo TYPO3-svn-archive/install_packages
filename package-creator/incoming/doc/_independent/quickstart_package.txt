@@ -1,0 +1,11 @@
+===========================================================================
+Package name:	Quickstart
+===========================================================================
+Contents:	Full demo site that should be used in combination with the
+		quickstart manual
+===========================================================================
+Comments:	For most beginners, this is the way to go. Please note that
+		this package is most useful in addition of the Quickstart
+		Tutorial that is located at the documentation section of
+		http://typo3.org/
+===========================================================================

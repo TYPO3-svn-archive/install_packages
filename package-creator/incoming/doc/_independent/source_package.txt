@@ -1,0 +1,16 @@
+===========================================================================
+Package name:	TYPO3 Source
+===========================================================================
+Contents:	The source of TYPO3
+===========================================================================
+Comments:	Only use this package for UPGRADING existing installations!
+		If you want to start with a NEW site, please use one of the
+		site packages instead:
+
+		- dummy (= blank page)
+		- testsite
+		- quickstart
+		
+		Note about the tar.gz archives:
+		You will need both, source AND site
+===========================================================================
