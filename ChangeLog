@@ -1,4 +1,8 @@
-2004-07-02  Michael Stucki  <mundaun@gmx.ch>
+2005-05-14  Michael Stucki  <michael@typo3.org>
+
+	* Make sure that index.php and showpic.php are always added
+	* Some code improvements
+
+2004-07-02  Michael Stucki  <michael@typo3.org>
 
 	* Initial upload
-

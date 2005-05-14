@@ -28,18 +28,18 @@ require(PATH_t3lib."class.t3lib_div.php");
 require(PATH_t3lib."class.t3lib_extmgm.php");
 
 // create a temporary DB
-$command = 'mysql -uroot -e"CREATE DATABASE dbupdater_temp;"';
+$command = 'mysql -utypo3 -ptypo30 -e"CREATE DATABASE typo3_dbupdater_temp;"';
 message(`$command`);
 
 //  ...and fill it with the contents of the old database.sql
-$command = 'mysql -uroot dbupdater_temp < '.PATH_typo3conf.'database.sql';
+$command = 'mysql -utypo3 -ptypo30 typo3_dbupdater_temp < '.PATH_typo3conf.'database.sql';
 message(`$command`);
 
 // set Typo3 database information
-$typo_db_username = 'root';
+$typo_db_username = 'typo3';
+$typo_db_password = 'typo30';
 $typo_db_host = 'localhost';
-$typo_db = 'dbupdater_temp';
-$typo_db_password = '';
+$typo_db = 'typo3_dbupdater_temp';
 
 
 // saving the database information to the constants.
@@ -62,7 +62,7 @@ if (!$result)	{
 	die("Couldn't connect to database at ".TYPO3_db_host);
 }
 
-if(!$TYPO3_DB->sql_select_db('dbupdater_temp')) {
+if(!$TYPO3_DB->sql_select_db('typo3_dbupdater_temp')) {
 	message('Failed to select the database!');
 }
 
@@ -136,13 +136,14 @@ class SC_dbupdater extends t3lib_install {
 			
 			$this->updateQueriesExecuted += count($doUpdate);
 			
-			$this->preformUpdateQueries($update_statements["add"],$doUpdate);
-			$this->preformUpdateQueries($update_statements["change"],$doUpdate);
-			$this->preformUpdateQueries($remove_statements["change"],$doUpdate);
-			$this->preformUpdateQueries($remove_statements["drop"],$doUpdate);
-			$this->preformUpdateQueries($update_statements["create_table"],$doUpdate);
-			$this->preformUpdateQueries($remove_statements["change_table"],$doUpdate);
-			$this->preformUpdateQueries($remove_statements["drop_table"],$doUpdate);
+				// Starting with TYPO3 3.7 this typo has been fixed from "preformUpdateQueries" to "performUpdateQueries"
+			$this->performUpdateQueries($update_statements["add"],$doUpdate);
+			$this->performUpdateQueries($update_statements["change"],$doUpdate);
+			$this->performUpdateQueries($remove_statements["change"],$doUpdate);
+			$this->performUpdateQueries($remove_statements["drop"],$doUpdate);
+			$this->performUpdateQueries($update_statements["create_table"],$doUpdate);
+			$this->performUpdateQueries($remove_statements["change_table"],$doUpdate);
+			$this->performUpdateQueries($remove_statements["drop_table"],$doUpdate);
 
 		}
 	}
@@ -177,17 +178,18 @@ class SC_dbupdater extends t3lib_install {
 
 $dbUpdater = t3lib_div::makeInstance("SC_dbupdater");
 $dbUpdater->updateDB();
+
 $dbUpdater->updateDB(); // Doing it again. Sometimes this is necessary.
 $dbUpdater->importStatic(); // Importing static tables
 
 message('Update queries: '.$dbUpdater->updateQueriesExecuted.' ImportStatic queries: '.$dbUpdater->importQueriesExecuted);
 
 // having done the changes to the database, we can now dump the up-to-date database to a new database.sql file
-$command = 'mysqldump -uroot dbupdater_temp > '.PATH_typo3conf.'database.sql';
+$command = 'mysqldump -utypo3 -ptypo30 typo3_dbupdater_temp > '.PATH_typo3conf.'database.sql';
 message(`$command`);
 
 // ...and finally drop the temporary database
-$command = 'mysql -uroot -e"DROP DATABASE dbupdater_temp;"';
+$command = 'mysql -utypo3 -ptypo30 -e"DROP DATABASE typo3_dbupdater_temp;"';
 message(`$command`);
 
 // Additionally, delete all temp_CACHED_* files in typo3conf/
