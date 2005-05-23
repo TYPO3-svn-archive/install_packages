@@ -95,15 +95,16 @@ class package_creator {
 		$this->logMessage('Removing unused files and directories');
 
 		$filelist = array();
-		$filelist[] =`find $this->workSource -name CVS`;
-		$filelist[] =`find $this->workSource -name "*.webprj"`;
-		$filelist[] =`find $this->workSource -regex ".*\~$"`;
-		$filelist[] =`find $this->workSource -regex ".*#.*"`;
-		$filelist[] =$this->workSource.'/CVSreadme.txt';
-		$filelist[] =$this->workSource.'/create_symlinks.sh';
-		$filelist[] =$this->workSource.'/typo3/dev/';
-		$filelist[] =$this->workSource.'/typo3/icons/';
-		$filelist[] =$this->workSource.'/typo3/sysext/sv/';
+		$filelist[] =`find $this->workSource -name CVS`;		// CVS directories
+		$filelist[] =`find $this->workSource -name "*.webprj"`;		// KDE web project files (Quanta?)
+		$filelist[] =`find $this->workSource -name "*.orig"`;		// backup files
+		$filelist[] =`find $this->workSource -regex ".*\~$"`;		// backup files
+		$filelist[] =`find $this->workSource -regex ".*#.*"`;		// CVS backup files
+		$filelist[] =$this->workSource.'/CVSreadme.txt';		// only applies to CVS
+		$filelist[] =$this->workSource.'/create_symlinks.sh';		// only applies to CVS
+		// $filelist[] =$this->workSource.'/typo3/dev/';		// ### Why has this line ever been added?? ###
+		// $filelist[] =$this->workSource.'/typo3/icons/';		// ### Why has this line ever been added?? ###
+		// $filelist[] =$this->workSource.'/typo3/sysext/sv/';		// ### Why has this line ever been added?? ###
 
 		foreach($filelist as $list) {
 			foreach(explode("\n",trim($list)) as $file) {
@@ -130,12 +131,6 @@ class package_creator {
 
 		$command = 'find '.$this->tempDir.' -type f -exec chmod a-x {} \;';
 		exec($command);
-
-			// Make 'fileadmin', 'typo3conf', 'typo3temp', 'uploads' writable for all sites
-		foreach (explode(',', 'fileadmin,typo3conf,typo3temp,uploads') as $dirname) {
-			$command = 'find '.$this->tempDir.' -type d -name '.$dirname.' -exec chmod -R a+w {} \;';
-			exec($command);
-		}
 
 	// Source permissions (overrides site permissions from above)
 

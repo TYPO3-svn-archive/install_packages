@@ -1,5 +1,10 @@
 2005-05-14  Michael Stucki  <michael@typo3.org>
 
+	* Changed default permissions for fileadmin, typo3conf, typo3temp and uploads from 777 back to 755
+	* Added 3.8.0 templates
+
+2005-05-14  Michael Stucki  <michael@typo3.org>
+
 	* Make sure that index.php and showpic.php are always added
 	* Some code improvements
 
