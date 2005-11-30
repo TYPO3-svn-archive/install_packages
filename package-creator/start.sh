@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# We need to download the source backup from Kaspers server
-# cd incoming/source/
-# wget -c http://130.228.0.33/t3dl/src/typo3_src-3.6.0.tgz
-# tar xzf typo3_src-3.6.0.tgz
-# cd ../../
+# How this works:
+#
+# 1. Download the CVS module TYPO3core from http://sourceforge.net/projects/typo3/
+# 2. Copy it to incoming/source/
+# 3. If needed, add the global typo3/ext/ directory from an existing TYPO3 release (because its contents are missing in CVS)
+# 4. Run the script below
 
-# Optionally, you can just continue with the pacakge-creator now
 /usr/bin/php4 -q package-creator.php

@@ -1,0 +1,13 @@
+2005-11-08  Michael Stucki  <michael@typo3.org>
+
+	* Removed allowGlobalInstall definition in localconf.php
+	* Removed requiredExtList definition in localconf.php
+	* Added a index.html and .htaccess files to fileadmin/_temp_/ to make sure its content cannot be listed/accessed
+
+2004-11-01  Michael Stucki  <michael@typo3.org>
+
+	* Changed repipient address for the mail form (PID 6)
+	* Replaced Premiere.wmv with aquarium.avi
+	* Replaced some address records
+	* Removed some obsolete pictures in the recycle bin
+	* Starting to maintain a ChangeLog

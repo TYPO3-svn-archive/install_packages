@@ -14,7 +14,7 @@ class package_creator {
 	var $workSource;				// TODO: description
 
 		// Customizable variables
-	var $sourceDir		= 'incoming/source/typo3_src-3.6.0';	// Location of the source
+	var $sourceDir		= 'incoming/source/typo3_src-3.8.0';	// Location of the source
 	var $sitesDir		= 'incoming/sites';	// Location of the various (source) sites
 	var $docDir		= 'incoming/doc';	// Location of the documentation files
 	var $tempDir		= 'temp';		// We need a temporary directory
@@ -27,11 +27,13 @@ class package_creator {
 	var $gzipSwitch		= 'z';			// Option for using gzip compression with tar
 	var $bzip2Switch	= 'j';			// Option for using bzip2 compression with tar
 
-	function start() {
+	function start()	{
 			// Import config file which can override our default vars
 		@include 'config.php';
 
-		if(!$this->doNotCleanUp) $this->cleanUp(array('temporary' => $this->tempDir,'target' => $this->targetDir,));
+		if(!$this->doNotCleanUp)	{
+			$this->cleanUp(array('temporary' => $this->tempDir,'target' => $this->targetDir,));
+		}
 
 		$this->currentDir = getcwd();	// Save the pwd for later usage	// TODO: check
 		$this->workSource = $this->tempDir.'/'.basename($this->sourceDir);
@@ -42,12 +44,14 @@ class package_creator {
 			// Create a temporary directory
 			// Create the target directory (where we finally place the archive files)
 		$directories=array('temporary' => $this->tempDir, 'target' => $this->targetDir);
-		foreach($directories as $label => $dirname) {
-			if(!file_exists($dirname)) $this->createDir($dirname, $label);
+		foreach($directories as $label => $dirname)	{
+			if(!file_exists($dirname))	{
+				$this->createDir($dirname, $label);
+			}
 		}
 
 			// Copy the source to the temporary directory
-		if(file_exists($this->sourceDir)) {
+		if(file_exists($this->sourceDir))	{
 			$this->createSource();
 			$this->createSymlinks();
 		} else {
@@ -58,7 +62,7 @@ class package_creator {
 
 			// Detect the sites that have to be created
 		$newTargetSites = array();
-		foreach($this->targetSites as $sourceSite) {
+		foreach($this->targetSites as $sourceSite)	{
 			$targetSite = $sourceSite.'-'.$this->version;
 			$this->createSite($sourceSite, $targetSite);
 			$newTargetSites[]=$targetSite;
@@ -72,17 +76,17 @@ class package_creator {
 		$this->fixPermissions();
 
 			// Add the typo3_src to the list of sites to be packages
-		foreach(explode(",",$this->archiveExtList) as $ext) {
+		foreach(explode(',',$this->archiveExtList) as $ext)	{
 			$this->createArchive(basename($this->sourceDir),$ext);
 		}
 
-		foreach($this->targetSites as $site) {
-			foreach(explode(",",$this->archiveExtList) as $ext) {
+		foreach($this->targetSites as $site)	{
+			foreach(explode(',',$this->archiveExtList) as $ext)	{
 				$this->createArchive($site,$ext);
 			}
 		}
 
-		if(!$this->doNotCleanUp) {
+		if(!$this->doNotCleanUp)	{
 			$this->cleanUp(array('temporary' => 'temp'));
 		}
 
@@ -91,7 +95,7 @@ class package_creator {
 	}
 
 		// Remove all CVS directories
-	function removeUnusedFiles() {
+	function removeUnusedFiles()	{
 		$this->logMessage('Removing unused files and directories');
 
 		$filelist = array();
@@ -102,28 +106,32 @@ class package_creator {
 		$filelist[] =`find $this->workSource -regex ".*#.*"`;		// CVS backup files
 		$filelist[] =$this->workSource.'/CVSreadme.txt';		// only applies to CVS
 		$filelist[] =$this->workSource.'/create_symlinks.sh';		// only applies to CVS
-		// $filelist[] =$this->workSource.'/typo3/dev/';		// ### Why has this line ever been added?? ###
-		// $filelist[] =$this->workSource.'/typo3/icons/';		// ### Why has this line ever been added?? ###
-		// $filelist[] =$this->workSource.'/typo3/sysext/sv/';		// ### Why has this line ever been added?? ###
 
-		foreach($filelist as $list) {
-			foreach(explode("\n",trim($list)) as $file) {
-				if(file_exists($file)) exec('rm -r "'.$file.'"');
+		foreach($filelist as $list)	{
+			foreach(explode("\n",trim($list)) as $file)	{
+				if (file_exists($file))	{
+					exec('rm -r "'.$file.'"');
+				}
 			}
 		}
 
 		$this->reportStatus(true);	// TODO: check
 	}
 
-	function fixPermissions() {
+	function fixPermissions()	{
 		$this->logMessage('Fixing file permissions');
 
-	// Site permissions
+		//
+		// Site permissions
+		//
 
 			// All sites belong to www-data.www-data
 		$username=trim(exec('whoami'));
-		if($username=='root') exec('chown -R www-data.www-data '.$this->tempDir);
-		else $this->reportError('You are not root. I cannot run "chown" then.',false);
+		if ($username=='root')	{
+			exec('chown -R www-data.www-data '.$this->tempDir);
+		} else {
+			$this->reportError('You are not root. I cannot run "chown" then.',false);
+		}
 
 			// Set readonly permissions for everyone except root
 		$command = 'chmod -R '.$this->sitePermissionMask.' '.$this->tempDir;
@@ -132,36 +140,29 @@ class package_creator {
 		$command = 'find '.$this->tempDir.' -type f -exec chmod a-x {} \;';
 		exec($command);
 
-	// Source permissions (overrides site permissions from above)
+		//
+		// Source permissions (overrides site permissions from above)
+		//
 
 			// The whole source belongs to root.root
 		$username=trim(exec('whoami'));
-		if($username=='root') exec('chown -R root.root '.$this->workSource);
-		else $this->reportError('You are not root',false);
+		if($username=='root')	{
+			exec('chown -R root.root '.$this->workSource);
+		} else {
+			$this->reportError('You are not root',false);
+		}
 
 			// Set readonly permissions for everyone except root
 		$command = 'chmod -R '.$this->sourcePermissionMask.' '.$this->workSource;
 		exec($command);
 
 			// Some files should be executable
-		$filelist = array(
-			'typo3/ext/direct_mail/mod/dmailerd.phpcron',
-			'typo3/ext/direct_mail/mod/returnmail.phpsh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/lang/add_message.sh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/lang/add_message_file.sh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/lang/check_lang.sh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/lang/remove_message.sh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/lang/sort_lang.sh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/lang/sync_lang.sh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/scripts/convertcfg.pl',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/scripts/create-release.sh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/scripts/extchg.sh',
-			'typo3/ext/phpmyadmin/modsub/phpMyAdmin-2.4.0-rc1/scripts/remove_control_m.sh',
-		);
-		foreach($filelist as $file) {
-			$filename = $this->workSource.'/'.$file;
-			if(file_exists($filename)) exec('chmod a+x '.$filename);
+		$extList = array('phpcron','phpsh','sh','pl');
+		foreach($extList as $fileext)	{
+			$cmd = 'find "'.$this->workSource.'" -name "*.'.$fileext.'" -exec chmod a+x {} \;';
+			exec($cmd);
 		}
+
 			// Remove public access for Readme files in the root of the source
 		$filelist = array(
 			'CVSreadme.txt',
@@ -177,24 +178,26 @@ class package_creator {
 			'changelog.txt',
 			'create_symlinks.sh',
 		);
-		foreach($this->listDir($this->tempDir) as $dirname) {
-			foreach(explode(",",$filelist) as $file) {
+		foreach($this->listDir($this->tempDir) as $dirname)	{
+			foreach(explode(',',$filelist) as $file)	{
 				$filename = $this->tempDir.'/'.$dirname.'/'.$file;
-				if(file_exists($filename)) exec('chmod go-rwx '.$filename);
+				if (file_exists($filename))	{
+					exec('chmod go-rwx '.$filename);
+				}
 			}
 		}
 
 		$this->reportStatus(true);	// TODO: check
 	}
 
-	function cleanUp($directories) {
+	function cleanUp($directories)	{
 
 			// Remove the temporary/target directory
-		foreach($directories as $label => $dirname) {
-			if(file_exists($dirname)) {
+		foreach($directories as $label => $dirname)	{
+			if(file_exists($dirname))	{
 				$this->logMessage('Cleaning up the "'.$label.'" dir');
 
-				$command="rm -r ".$dirname;
+				$command='rm -r '.$dirname;
 				$status=`$command`;
 
 				$this->reportStatus(true);	// TODO: check
@@ -203,7 +206,7 @@ class package_creator {
 	}
 
 		// Create the archives
-	function createArchive($siteName,$ext="tar.gz") {
+	function createArchive($siteName,$ext='tar.gz')	{
 		$archiveName=$this->targetDir.'/'.$siteName.'.'.$ext;
 
 		$this->logMessage('Creating archive '.basename($archiveName));
@@ -211,43 +214,43 @@ class package_creator {
 		$docPath = str_replace('-'.$this->version, '', $siteName);
 
 		$docFiles = array();
-		foreach($this->listDir($this->docDir.'/'.$this->version.'/'.$ext.'/'.$docPath) as $docFileName) {
+		foreach($this->listDir($this->docDir.'/'.$this->version.'/'.$ext.'/'.$docPath) as $docFileName)	{
 			$docFiles[] = $docPath.'/'.$docFileName;
 		}
-		foreach($this->listDir($this->docDir.'/'.$this->version.'/'.$ext.'/_all') as $docFileName) {
+		foreach($this->listDir($this->docDir.'/'.$this->version.'/'.$ext.'/_all') as $docFileName)	{
 			$docFiles[] = '_all/'.$docFileName;
 		}
 
-		if(!file_exists($archiveName)) {
+		if (!file_exists($archiveName))	{
 
 				// Add additional documentation for this site
 			$replacedFiles = array();
-			foreach($docFiles as $docFile) {
+			foreach($docFiles as $docFile)	{
 				$sourceFile = $this->docDir.'/'.$this->version.'/'.$ext.'/'.$docFile;
 				$destFile = $this->tempDir.'/'.$siteName.'/'.basename($docFile);
 
-				if(file_exists($sourceFile)) {
-					if(!file_exists($destFile)) {
+				if (file_exists($sourceFile))	{
+					if (!file_exists($destFile))	{
 						$command='cp -LR '.$sourceFile.' '.$destFile;
 						$status=`$command`;
 						$replacedFiles[]=basename($destFile);
 					} else {
-						if($this->verbose >= 0) $this->reportError('Warning: File '.$destFile.' already exists!',false);
+						if ($this->verbose >= 0) $this->reportError('Warning: File '.$destFile.' already exists!',false);
 					}
 				}
 			}
 
 				// Some files should be executable
 			$filelist = 'make_secure.sh';
-			foreach(explode(',',$filelist) as $file) {
+			foreach(explode(',',$filelist) as $file)	{
 				$filename = $this->tempDir.'/'.$siteName.'/'.$file;
 				if(file_exists($filename)) exec('chmod a+x '.$filename);
 			}
 
-			switch($ext) {
-				case "tar.gz":
-				case "tar.bz2":
-					if($ext=='tar.gz') $compressorSwitch=$this->gzipSwitch;
+			switch($ext)	{
+				case 'tar.gz':
+				case 'tar.bz2':
+					if ($ext=='tar.gz') $compressorSwitch=$this->gzipSwitch;
 					else $compressorSwitch=$this->bzip2Switch;
 
 					if($this->verbose > 2) $v='v';	// enable quiet mode when calling zip
@@ -256,37 +259,38 @@ class package_creator {
 
 					if($this->verbose >= 0 && $status!='') $this->reportError($status,false);
 				break;
-				case "zip":
+				case 'zip':
 					$sourceDocFiles = array();
-					if(file_exists($this->tempDir.'/'.$siteName.'/typo3_src')) {
+					if (file_exists($this->tempDir.'/'.$siteName.'/typo3_src'))	{
 						// We are inside of a site directory
 
 							// Add all files from the root of the typo3_src dir since we won't add typo3_src
-						$filelist =`find $this->workSource -type f -maxdepth 1`;
-						foreach(explode("\n",trim($filelist)) as $file) {
+						$filelist =`find $this->workSource -maxdepth 1 -type f`;
+						foreach(explode("\n",trim($filelist)) as $file)	{
 							$sourceDocFiles[]=$file;
 						}
 					}
 
 					foreach($sourceDocFiles as $filename)	{
-						if(file_exists($filename))	{
+						if (file_exists($filename))	{
 							$command='cd '.$this->tempDir.' && cp ../'.$filename.' '.$siteName.'/ && cd ..';
 							$status=`$command`;
-						} else	{
-							if($this->verbose >= 0) $this->reportError('Warning: File '.$filename.' already exists!',false);
+						} else {
+							if ($this->verbose >= 0) $this->reportError('Warning: File '.$filename.' already exists!',false);
 						}
 					}
 
-					if($this->verbose < 3) $v='q';	// enable quiet mode when calling zip
+					if ($this->verbose < 3) $v='q';	// enable quiet mode when calling zip
+
 						// Call zip command, exclude 'typo3_src' directory since it's not needed
 					$command='cd '.$this->tempDir.' && zip -9q'.$v.'r ../'.$archiveName.' '.$siteName.' -x '.$siteName.'/typo3_src/\* && cd ..';
 					$status=`$command`;
-					foreach($sourceDocFiles as $filename) {
+					foreach($sourceDocFiles as $filename)	{
 						$command='cd '.$this->tempDir.'/'.$siteName.' && rm '.basename($filename).' && cd ..';
 						$status=`$command`;
 					}
 
-					if($this->verbose >= 0 && $status!='') $this->reportError($status,false);
+					if ($this->verbose >= 0 && $status!='') $this->reportError($status,false);
 				break;
 				default:
 					$this->reportError('Unknown file extension: '.$ext);
@@ -294,10 +298,10 @@ class package_creator {
 			}
 
 				// Remove the doc files
-			foreach($replacedFiles as $docFile) {
+			foreach($replacedFiles as $docFile)	{
 				$destFile = $this->tempDir.'/'.$siteName.'/'.$docFile;
 
-				if(file_exists($destFile)) {
+				if (file_exists($destFile))	{
 					$command='rm '.$destFile;
 					$status=`$command`;
 				}
@@ -313,15 +317,15 @@ class package_creator {
 	}
 
 		// Copy the site directory from $this->sitesDir to $this->tempDir
-	function createSite($sourceSite, $targetSite) {
+	function createSite($sourceSite, $targetSite)	{
 		$this->logMessage('Creating site '.$targetSite);
 
-		if(!file_exists($this->tempDir.'/'.$targetSite)) {
+		if (!file_exists($this->tempDir.'/'.$targetSite))	{
 			$command='mkdir '.$this->tempDir.'/'.$targetSite.' && cp -R '.$this->sitesDir.'/'.$this->version.'/'.$sourceSite.'/* '.$this->tempDir.'/'.$targetSite.'/';
 			$status=`$command`;
 		}
 
-		if(!file_exists($this->tempDir.'/'.$targetSite.'/typo3_src')) {
+		if (!file_exists($this->tempDir.'/'.$targetSite.'/typo3_src'))	{
 			$linkSource = '../'.basename($this->workSource);
 			$linkTarget = 'typo3_src';
 			$command = 'cd '.$this->tempDir.'/'.$targetSite.' && ln -s '.$linkSource.' '.$linkTarget;
@@ -336,10 +340,10 @@ class package_creator {
 	}
 
 		// Create a directory and show the output
-	function createDir($directory, $label='') {
+	function createDir($directory, $label='')	{
 		$this->logMessage('Creating directory '.$label);
 
-		if(mkdir($directory, 0755)) {
+		if (mkdir($directory, 0755))	{
 			$this->reportStatus(true);
 			return true;
 		} else {
@@ -349,10 +353,10 @@ class package_creator {
 	}
 
 		// TODO: description
-	function createSource() {
+	function createSource()	{
 		$this->logMessage('Copying source into temp directory');
 
-		if(!file_exists($this->workSource)) {
+		if (!file_exists($this->workSource))	{
 			$command='cp -R '.$this->sourceDir.' '.$this->workSource;
 			$status=`$command`;
 		}
@@ -361,7 +365,7 @@ class package_creator {
 	}
 
 		// Create symbolics link if required
-	function createSymlinks() {
+	function createSymlinks()	{
 		$this->logMessage('Creating symbolic links if required');
 
 		$linkArr = array(
@@ -375,9 +379,9 @@ class package_creator {
 			array('t3lib/fonts/', 'arial.ttf', 'nimbus.ttf'),
 		);
 
-		foreach($linkArr as $linkArrRow) {
+		foreach($linkArr as $linkArrRow)	{
 			list($linkDir, $linkTarget, $linkSource) = $linkArrRow;
-			if(!file_exists($this->workSource.'/'.$linkDir.'/'.$linkTarget)) {
+			if (!file_exists($this->workSource.'/'.$linkDir.'/'.$linkTarget))	{
 				$command = 'cd '.$this->workSource.'/'.$linkDir.' && ln -s '.$linkSource.' '.$linkTarget;
 				exec($command);
 			}
@@ -387,13 +391,13 @@ class package_creator {
 	}
 
 		// TODO: description
-	function listDir($directory) {
+	function listDir($directory)	{
 		$returnArr = array();
 
-		if(file_exists($directory)) {
+		if (file_exists($directory))	{
 			$handle=opendir($directory);
 			while($file=readdir($handle)) {
-				if($file!="." && $file!="..") $returnArr[]=$file;
+				if($file!='.' && $file!='..') $returnArr[]=$file;
 			}
 			closedir($handle);
 		}
@@ -402,17 +406,17 @@ class package_creator {
 	}
 
 		// TODO: description
-	function logMessage($message) {
-		if($this->verbose >= 2) {
+	function logMessage($message)	{
+		if($this->verbose >= 2)	{
 			echo str_pad($message.' ', 90, '.').': ';
 		}
 	}
 
 		// TODO: description
-	function reportStatus($status) {
-		if($this->verbose >= 2) {
-			if($status) echo "OK";
-			else echo "Failed";
+	function reportStatus($status)	{
+		if($this->verbose >= 2)	{
+			if ($status) echo 'OK';
+			else echo 'Failed';
 			echo "\n";
 		}
 	}
@@ -420,7 +424,7 @@ class package_creator {
 	function reportError($message,$stop=true) {
 		echo "\n\n";
 		echo 'Error: '.$message."\n";
-		if($stop) die();
+		if ($stop) die();
 	}
 }
 ?>

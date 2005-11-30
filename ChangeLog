@@ -1,3 +1,10 @@
+2005-11-30  Michael Stucki  <michael@typo3.org>
+
+	* Added extension based method make files executable (e.g. *.sh)
+	* Added 3.8.1 templates
+	* Added 3.9.0-dev templates (currently it's just a symlink to 3.8.1)
+	* A lot of cleanup
+
 2005-05-14  Michael Stucki  <michael@typo3.org>
 
 	* Changed default permissions for fileadmin, typo3conf, typo3temp and uploads from 777 back to 755
