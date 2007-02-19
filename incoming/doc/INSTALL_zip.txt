@@ -1,0 +1,255 @@
+Installing TYPO3 - a guide to the basics
+Extension Key: doc_basicinstall
+Copyright 2000-2006, Nigel Jackson, <nigelj@pobox.com>
+
+This document is published under the Open Content License
+available from http://www.opencontent.org/opl.shtml
+
+The content of this document is related to TYPO3
+- a GNU/GPL CMS/Framework available from http://typo3.org
+
+This document is extracted from the similar-named document available on http://typo3.org/. Check that version for latest information.
+
+CONTENTS
+========
+
+Introduction
+If you really can't wait!
+What should you do if you have a problem?
+What to download & from where?
+   Must have...
+   Highly recommended for full functionality...
+   Other tools...
+Things to be aware of
+Installation guidelines - server
+Installation guidelines - TYPO3
+   Install the TESTSITE package...
+   Install an empty database ready to start building your site...
+Getting into the back end administration area (BE) and install tool
+Next steps
+The Extension Manager
+To-do List
+Changelog
+
+
+INTRODUCTION
+============
+
+So, you want to get started with TYPO3 right away...we've put this basic installation document together to set you off on the right track. To ensure your installation is as simple as possible, you should read this document carefully, and any others referenced within.
+
+This is not intended to replace the main TYPO3 installation & upgrade documents, and it does not give in depth instructions and explanation into TYPO3...just enough so that you understand what is required, and can get a basic install up and running. It also does not explain the procedures for compiling packages, or installing Apache, IIS, PHP, MySQL etc...you'll need to read the documentation relating to each for details.
+There are 2 TYPO3 documents that relate to installation...both are available on http://typo3.org/
+
+- Installing & Upgrading - this document describes the folder structure of TYPO3, installation of all versions, and the upgrade methodology. There is also a section on installing the web server
+
+
+IF YOU REALLY CAN'T WAIT!
+=========================
+
+If you're so keen to get started with TYPO3 that you can't wait until you've read to the bottom of this document first, do this...
+1 - Download the testsite ZIP distribution
+2 - Unzip the distribution to your server
+3 - In your browser hit http://[your.site.name]/index.php
+4 - Follow the instructions in the 1-2-3 install tool
+Please note - we're not going to support this...if you have a problem, read the rest of the document before you ask any questions!
+
+
+WHAT SHOULD YOU DO IF YOU HAVE A PROBLEM?
+=========================================
+
+TYPO3 is a powerful and complex professional application. When you start out there will be many things you don´t understand, or that don't seem to make sense. There is a widely used mailing list (more information on http://typo3.org/) where many experienced users and developers lurk...they are always willing to help, provided you followed these steps BEFORE you ask your question:
+1 - Read all available documentation carefully
+2 - Read all available documentation again
+3 - Search the mailing list archive carefully
+4 - If you still can´t figure it out - ask the list...see the following guidelines...
+       Be polite
+       Always include the version of used TYPO3 and server environment (phpinfo())...note that this is available within the TYPO3 Install Tool
+       Be as specific and clear as possible - questions like "my TYPO3 installation does not work - what can I do???" will be ignored. Although English may not be your first language, if those reading your posting can't understand it, you won't get the help you need
+       If you are really having a tough time getting something working, stay cool and don't criticise or flame. Problems are normally caused by lack of research into the documentation, or misunderstanding, not because of bugs. Be logical about your troubleshooting, and you'll get there
+5 - If you have identified a genuine new bug, report it at http://bugs.typo3.org/. Do not post to the list about it.
+
+Please be aware that if you ask questions that are answered in the available documentation, you may not get a reply, or any help from the developers or any experienced users!
+
+We are aware that there is still some work to be done on the documentation, and the platform for user support...please forgive us for not having all these gaps filled. If you feel that some information is missing, hard to find or just plain wrong, or you have a suggestion on improving TYPO3 or the “support services”, please let us know so that we can do what is necessary. You could also volunteer to help with the work!
+
+
+WHAT TO DOWNLOAD & FROM WHERE?
+==============================
+
+Because TYPO3 is not an application in the normal sense (it runs on the web server), it can be used under Linux/Unix, Windows or Mac. In addition to TYPO3 itself, you will also require some other software to get your installation up & running.
+
+The following list should help: (see also system requirements on http://typo3.org/)
+
+Must have...
+
+- TYPO3 source distribution (tgz for Unix/Linux only, ZIP for Windows or Linux)...get this from http://typo3.org/ or http://sourceforge.net/project/showfiles.php?group_id=20391
+- Web server - Apache is recommended & preferred, although TYPO3 will run under IIS...www.apache.org or www.microsoft.com
+- PHP4...get the source code or binaries from www.php.net. Some of the TYPO3 community have various versions, some with - ImageMagick or GD...post a message to the install mailing list...RPM's for Linux are available from many sources, but those compiled by Troels Arvin are easy to install, and a GD version with GIF is available (http://rpms.arvin.dk/php/ and http://rpms.arvin.dk/gd-with_gif/)
+- MySQL...go to www.mysql.com
+- Database user extensions...as required, and compiled with/installed under PHP
+
+Highly recommended for full functionality...
+
+- ImageMagick...version 4.2.9 rpm & windows versions are available from http://typo3.org/, latest version from http://www.imagemagick.org/
+- GD/FreeType (compiled into PHP) from http://www.boutell.com/gd/ (GD) and http://www.freetype.org/ (FreeType)
+- A PHP cache (e.g. Turck-MMcache) from http://turck-mmcache.sourceforge.net/. This is compiled into PHP, and makes import/export actions, and connections to the online extension repository smaller/faster, by compressing the data
+- Apache extensions mod_gzip/mod_rewrite: http://www.apache.org/
+
+Other tools...
+
+phpMyAdmin...TYPO3 comes packaged with this tool, which enables you to administer the database from within the TYPO3 back end administration area. If you also want to be able to do this from outside TYPO3, using your web browser, download this package from http://www.phpwizard.net/projects/phpMyAdmin/
+Curl...if your web server is behind a proxy server, you'll need to make the appropriate configuration changes in the TYPO3 Install Tool, and install Curl, to be able to access the extension repository...http://curl.haxx.se/
+
+
+THINGS TO BE AWARE OF
+=====================
+
+- Image processing - TYPO3 is renowned for its capability to manipulate graphics. However, if you only intend to develop a plain, text-based web site you don't need to either install the server-side software that is required for image processing, or enable it within TYPO3. Be aware that you will be missing one of the great features of TYPO3
+- ImageMagick - TYPO3 versions including and after 3.5 will happily work with the latest versions of ImageMagick (currently 5.x.x). However, there is a drawback with using this version. The RPM (for Linux) is compiled without LZW compression for GIF files, due to the patent issues with Unisys...this will slow down performance slightly. For the best performance on Linux, you can install version 4.2.9 to /usr/X11R6/bin/, and a later version to /usr/bin/...TYPO3 is setup to use ImageMagick installed to these locations. The Windows version of ImageMagick 4.2.9 available from http://typo3.org/ has LZW compression. The alternative to all this is to use the latest version of ImageMagick, and use a version of GD that has LZW for GIF!
+- GD - this is compiled into PHP, and activated by installing the extension in the php.ini file. On Linux you can re-compile PHP yourself with any version of GD, but for Windows users you will probably use a pre-compiled binary. GD Versions after 1.8.4 do not have GIF support, again due to the patent issues with Unisys. Note that if your build of PHP has a later version of GD without GIF support, you can't simply obtain an earlier PHP extension and use it, without recompiling PHP
+- PHP 1 -  there have been problems reported when using the very latest version (4.3.x)
+- PHP 2 - TYPO3 will not currently run with the memory_limit directive in php.ini set to less than 8mb
+
+
+INSTALLATION GUIDELINES - SERVER
+================================
+
+Before you can install TYPO3, you have to have a working web server...
+
+1 - Install Apache or IIS
+2 - Test your install by hitting http://127.0.0.1 (or your web site address) from your web browser. If you don't see the server's "welcome" page, something is wrong at the most basic level...correct this before moving on
+3 - Install PHP & configure the web server to use it (see the PHP documentation)
+4 - Create a plain text file...enter 1 line as follows...<? phpinfo() ?>. Save the file in your web site's root as phpinfo.php
+5 - In your web browser hit http://[your.site.name]/phpinfo.php. You should see a long page listing lots of information about PHP. If you don't, re-check the PHP configuration in your web server
+6 - Install ImageMagick (see the ImageMagick documentation)
+7 - Install & test MySQL (see the MySQL documentation - mysql.org)
+8 - Install a PHP accelerator if you are going to use one (phpaccelerator.com, zend.com)
+9 - Re-check your PHP configuration as in step 5. Scroll down the page...you should see a section titled "mysql" (if you don't, mysql is either not running, or not installed properly (support is automatic in PHP, so you don't have to do anything). Further down the page you should find a section called "gd". This will show you what support your version of GD is giving you. Ideally you want to see FreeType, GIF, JPEG, PNG all enabled...if GIF is missing, your version of GD doesn't support it (see above). If you don't see a section for gd at all, check that you have enabled the gd extension in your php.ini file
+
+
+INSTALLATION GUIDELINES - TYPO3
+===============================
+
+Now that your web server is ready, you can install TYPO3...
+
+Install the TESTSITE package...
+
+This package contains a pre-built site with loads of examples of what TYPO3 can do, and how to do it...
+1 - Extract the package to a suitable location on the server's hard drive
+    - Windows users note 1...you should download one of the ZIP packages
+    - Windows users note 2...you should avoid locations that will result in a path with spaces (e.g. Programme Files or My Documents), because it will cause problems within TYPO3
+    - Linux users note 1...you have a choice of packages...the plain source code, which does not include the testsite database...use this with testsite.tgz, which contains the testsite, or use the ZIP package as on Windows
+    - Linux users note 2...if you use the tgz packages, you must check the symlinks exist and point to the correct location, or create them (see the document Installing Upgrading for details)
+    - Linux users note 3...you may want to create a user and group called "httpd" or "apache", and do the installation whilst logged in as that user
+2 - Set up your web server to point to the correct location. Set the default document to be index.php (this is done with the DirectoryIndex directive in Apache)
+3 - If you are using Linux: ensure the following files & folders are writable by the server.../typo3temp, /typo3/temp, /typo3conf/localconf.php (chmod 755 or 777)
+    If you are using Windows: Give IUSR_<machinename> read & execute permissions on the same folders like listed above.
+    In order to use the PHP exec() function that uses the Windows shell (usually CMD.EXE) to call the Imagemagick executables, you need to give the IUSR_MachineName account Read and Execute permissions on CMD.EXE
+4 - If you are setting up TYPO3 from anywhere other than on the server itself (where you can use http://127.0.0.1 as the address), open /typo3/install/index.php in your text editor and comment out lines 40 & 41 (adding /* at the beginning of the blank line before line 40, and */ on the blank line after line 41)
+5 - Open your web browser and hit http://[your.site.name] or http://127.0.0.1. You'll initially see an error message page, but will be immediately re-directed to the 1-2-3 Install Tool
+6 - Enter the information...
+    - Step 1...database username, password & host [click update localconf.php]
+    - Step 2...either select the database if you created one earlier, or enter a name in option 2 [click update localconf.php]
+    - Step 3...the database file name should be shown in the box [click Import database]
+    - That's it!...the basic installation is complete
+7 - You've now got 3 options...either...
+    - Open & browse the testsite
+    - Open the back end administration area (BE)
+    - Finish configuring the installation...this is recommended because there are lots of options that you can configure, including image processing
+8 - When you have finished setting up TYPO3, and especially if your site is on a public server, for security you MUST...
+Either delete the /install folder, protect it using a .ht access file or at least change the install tool password
+Create a new administration user with a name and password that cannot be guessed (on page 2 of the Install Tool, Database Analyser)
+
+Install an empty database ready to start building your site...
+
+The easiest way to do this is to use the ZIP install package as above with the following exceptions...
+1 - At step 5 log into the TYPO3 Install Tool...in your web browser, hit http://[your.site.name]/typo3/install...the default password is joh316 (note that you should change this, especially on a public server)
+2 - On the first page - Basic Configuration, enter the mysql username, host name and password, and either select a database or enter a name to create a new one, then click Update localconf.php
+3 - On the next page - Database Analyser...
+Click Compare next to Update required tables, then click Write to database
+Click Import next to Dump static data
+You'll see an entry typo3conf/database.sql below...do not import this database
+4 - Go through the rest of the install tool and finish your installation
+5 - Do step 8 above
+6 - Log into the back end and off you go
+When a TYPO3 version is officially released (i.e. not previews or RC's), there is usually a "dummy" distribution that contains the normal files found in the testsite ZIP, but without the testsite database. Install a dummy package following the instructions just above.
+
+
+GETTING INTO THE BACK END ADMINISTRATION AREA (BE) AND INSTALL TOOL
+===================================================================
+
+Your install is done, and you want to get on with learning about TYPO3, and building a site. You need to know how to access the BE, where all the site administration and construction takes place, and the install tool to update your configuration...
+
+- To log into the BE, in your browser hit http://[your.site.name]/typo3
+- To log into the Install Tool, hit http://[your.site.name]/typo3/install
+
+You can also access the install tool from within the BE.
+
+NOTE - the default passwords are...
+
+- Install tool - joh316
+- BE administration user - name=admin, password=password
+
+REMEMBER - the default passwords above should be changed as they represent a serious security risk to your installation, especially if your site is on a server with public access.
+
+
+NEXT STEPS
+==========
+
+Once in the BE, you'll see a menu of available modules to the left of the screen. I suggest you take time to read the Help>About module, as it gives a brief introduction to each one. You should also browse through the BE to find out where everything is.
+
+TYPO3 is a simple system for end-users, but it is complex for developers, and isn't quick to learn.  However, if you devote enough time to getting to grips with it, you'll find TYPO3 an enjoyable and rewarding tool to use. In particular, you'll need to get to grips with TypoScript (read the documents TSref and TypoScript by Example) ...this is the "definition" scripting language developed by Kasper, with which you build your templates, and enable and configure the many functions within TYPO3
+
+TYPO3 is one of the best and most extensively documented open source products around...make use of this valuable resource to learn about the system, and how to get the most from it. Extensive documentation is available from the documentation section on http://typo3.org/, including tutorials, technical and reference manuals.
+
+It is highly recommended that you join the official TYPO3 mailing list. On the list you'll find many experienced members of the community who are willing to help with problems you may be having, or advice on how to accomplish a particular task. You may also wish to join one of the other mailing lists that are devoted to TYPO3. Visit the mailing list page on http://typo3.org/ for more information.
+
+
+THE EXTENSION MANAGER
+=====================
+
+From TYPO3 version 3.5 the basic construction of the system was changed. Previously, all modules and components were built into the system, and every installation included everything...whether you needed it or not!
+
+TYPO3 is now distributed as an installation of core files, and global extensions that are used all the time. Additional functionality is provided by downloading and installing other extensions, that are written by Kasper himself, or by other developers and users. The extensions are held in an online repository on http://typo3.org/.
+
+In the BE, click the module Tools>Ext Manager to open the Extension Manager. This is the tool you use to view, download, install, uninstall, create and upload extensions. Use the drop down menu at the top to select what you want to see.
+
+To download and install an extension, do this...
+
+1 - Select the page "Import extensions from the online repository" and click the connect button
+2 - The extensions will be listed...those that are available to you and which are not already on your system have an icon in the very left column...click this icon to download the extension to your server
+3 - Select the page "Available extensions to install"...find the extension you want to install in the list and click the + button to the left...if any database updates are required, you will be prompted to do so
+4 - Clear the cache, log out and back in, and the new extension will be ready to use (note that logging out and in is not required for all extensions)
+
+As a first test...connect and download the extension Help>Welcome, then install it. After logging out and back in, you'll see the new module in the BE under...you guessed...Help>Welcome! Click on it to see an introduction on how to use some of the features of TYPO3.
+
+Once you have gained some experience with TYPO3, you may want to start writing your own extensions...before you start, there are several documents you should read...
+
+- Inside TYPO3 - explains the architecture and inner structure of TYPO3. This document includes the a section TYPO3 Extension API, which describes the process of creating an extension, naming conventions and rules
+- Coding Guidelines - guidelines that must be followed when coding for TYPO3
+
+Once you have created an extension, you'll need to do the following to upload it to the extension repository, and view it...
+
+1 - First register on the online extension repository at http://typo3.org/
+2 - Once you've registered, open the Extension Manager>Settings page...enter your username and password in the (the extension repository one, not the one for the BE)...click update
+3 - Upload your extension
+4 - Now when you connect using your username and password, you'll also see your own and other "members" extensions
+
+NOTE - there is a known bug at present...when using TYPO3 on Windows together with the Apache ISAPI module, you will get errors when trying to download from the repository. Windows and Apache in CGI mode works OK.
+
+
+TO-DO LIST
+==========
+
+Add screenshots to help illustrate the installation stages
+
+
+CHANGELOG
+=========
+
+06-12-2002 - first issued in .txt format
+16-12-2002 - converted to sxw format & uploaded to http://typo3.org/
+17-12-2002 - corrected BE username
+29-12-2002 - corrections to links (online version) & install tool path. Re-issued .txt version
+24-09-2004 - minor changes & corrections
+26-03-2006 - minor changes & corrections, copied from http://wiki.typo3.org/index.php/Zip-INSTALL.txt
