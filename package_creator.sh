@@ -51,6 +51,7 @@ ROOT_DIR="$(pwd)"
 
 SOURCE_DIR="$ROOT_DIR/incoming/source";
 SITE_DIR="$ROOT_DIR/incoming/site";
+DOC_DIR="$ROOT_DIR/incoming/doc";
 TEMP_DIR="$ROOT_DIR/temp"
 TARGET_DIR="$ROOT_DIR/target"
 
@@ -70,13 +71,16 @@ DO_TGZ=1
 DO_ZIP=1
 
 # If you set this value this will override the version number (instead of using the version found in t3lib/config_default.php)
-#FORCE_VERSION=4.1.0RC2
+FORCE_VERSION=4.1.0RC2
 
 # Files that should be removed from the result:
-REMOVE_FILES="src CVS .svn \*.webprj \*.orig \*~"
+REMOVE_FILES="src CVS CVSreadme.txt .svn \*.webprj \*.orig \*~"
 
 # Files that must be made executable:
 EXEC_FILES="\*.phpcron \*.phpsh \*.sh \*.pl"
+
+# Files that contain documentation (only searched in $DOC_DIR)
+DOC_FILES="\*.txt"
 
 
 #######################################################
@@ -154,13 +158,25 @@ function create_symlinks {
 	cd ..
 }
 
+# TODO: description
+function create_doc {
+	FILES=$(echo $DOC_FILES | sed 's/^\\//')
+
+	for i in dummy typo3_src; do
+		find "$DOC_DIR" -name "$FILES" -exec cp {} "$TEMP_DIR/$i-$VERSION/" \;
+		rm "$TEMP_DIR/$i-$VERSION/INSTALL_zip.txt"
+		mv "$TEMP_DIR/$i-$VERSION/INSTALL_tgz.txt" "$TEMP_DIR/$i-$VERSION/INSTALL.txt"
+	done
+}
+
 # Remove unused files/directories
 function remove_unused {
 	MESSAGE="Removing unused files and directories" && debug
 
 	for i in $REMOVE_FILES; do
-		i=$(echo $i | sed "s/^\\\\//")
-		find "$TEMP_DIR/" -name "$i" | xargs rm -rf
+		i=$(echo $i | sed 's/^\\//')
+		LIST=$(find "$TEMP_DIR/" -name "$i")
+		test -n "$LIST" && echo $LIST | xargs rm -rf
 	done
 
 	debug_done
@@ -181,8 +197,7 @@ function fix_permissions {
 
 	# ... except those listed in EXEC_FILES
 	for i in $EXEC_FILES; do
-		i=$(echo $i | sed "s/^\\\\//")
-
+		i=$(echo $i | sed 's/^\\//')
  		LIST=$(find "$TEMP_DIR/" -name "$i")
  		test -n "$LIST" && echo $LIST | xargs chmod a+x
 	done
@@ -229,6 +244,12 @@ function patch_zip {
 	# Remove symlinks
 	find "dummy-$VERSION" -type l | xargs rm
 
+	# Replace INSTALL.txt with the zip version
+	for i in dummy typo3_src; do
+		rm "$TEMP_DIR/$i-$VERSION/INSTALL.txt"
+		cp "$DOC_DIR/INSTALL_zip.txt" "$TEMP_DIR/$i-$VERSION/INSTALL.txt"
+	done
+
 	cd ..
 }
 
@@ -264,6 +285,9 @@ copy_source
 
 # Create symlinks in site directory
 create_symlinks
+
+# Move documentation files to the right place
+create_doc
 
 # Remove unused files and change the permissions
 remove_unused
