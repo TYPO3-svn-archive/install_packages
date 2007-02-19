@@ -1,9 +1,0 @@
-2005-11-08  Michael Stucki  <michael@typo3.org>
-
-	* Added a index.html and .htaccess files to fileadmin/_temp_/ to make sure its content cannot be listed/accessed
-
-2004-11-01  Michael Stucki  <michael@typo3.org>
-
-	* Replaced all links from the "Links" page with references to football club sites running TYPO3
-	* Removed comics image
-	* Starting to maintain a ChangeLog
