@@ -71,7 +71,7 @@ DO_TGZ=1
 DO_ZIP=1
 
 # If you set this value this will override the version number (instead of using the version found in t3lib/config_default.php)
-FORCE_VERSION=4.1.0RC2
+#FORCE_VERSION=4.1.0RC2
 
 # Files that should be removed from the result:
 REMOVE_FILES="src CVS CVSreadme.txt .svn \*.webprj \*.orig \*~"
@@ -163,7 +163,7 @@ function create_doc {
 	FILES=$(echo $DOC_FILES | sed 's/^\\//')
 
 	for i in dummy typo3_src; do
-		find "$DOC_DIR" -name "$FILES" -exec cp {} "$TEMP_DIR/$i-$VERSION/" \;
+		find "$DOC_DIR" -name "$FILES" -a ! -wholename "*/.svn*" -exec cp {} "$TEMP_DIR/$i-$VERSION/" \;
 		rm "$TEMP_DIR/$i-$VERSION/INSTALL_zip.txt"
 		mv "$TEMP_DIR/$i-$VERSION/INSTALL_tgz.txt" "$TEMP_DIR/$i-$VERSION/INSTALL.txt"
 	done
@@ -270,7 +270,7 @@ function create_zip_and_dummy {
 # TODO: description
 function create_md5sum {
 	cd $TARGET_DIR
-	md5sum * > md5sum.txt
+	md5sum * > md5sums.txt
 	cd ..
 }
 

@@ -1,3 +1,8 @@
+2007-03-06  Michael Stucki  <michael@typo3.org>
+
+	* Fixed filename of md5sums.txt
+	* Skip .svn directories when searching for documentation files
+
 2007-02-20  Michael Stucki  <michael@typo3.org>
 
 	* Add documentation files again
