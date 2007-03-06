@@ -2,6 +2,7 @@
 
 	* Fixed filename of md5sums.txt
 	* Skip .svn directories when searching for documentation files
+	* More fixes found during 4.1 packaging
 
 2007-02-20  Michael Stucki  <michael@typo3.org>
 

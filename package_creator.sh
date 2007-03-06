@@ -134,7 +134,7 @@ function detect_version {
 # TODO: description
 function copy_source {
 	MESSAGE="Copying source directory" && debug
-	test -e "$SOURCE_DIR/index.php" && cp -R "$SOURCE_DIR" "$TEMP_DIR/typo3_src-$VERSION" && debug_done && return
+	test -e "$SOURCE_DIR/index.php" && cp -R "$SOURCE_DIR/" "$TEMP_DIR/typo3_src-$VERSION" && debug_done && return
 	echo "Error: Source directory does not contain TYPO3 (index.php is missing)" && exit 1
 }
 
@@ -242,7 +242,9 @@ function patch_zip {
 	cd "$TEMP_DIR"
 
 	# Remove symlinks
+	cp -L "dummy-$VERSION/index.php" "dummy-$VERSION/__index.php"
 	find "dummy-$VERSION" -type l | xargs rm
+	mv "dummy-$VERSION/__index.php" "dummy-$VERSION/index.php"
 
 	# Replace INSTALL.txt with the zip version
 	for i in dummy typo3_src; do
@@ -256,6 +258,8 @@ function patch_zip {
 # TODO: description
 function create_zip_and_dummy {
 	cd "$TEMP_DIR"
+
+	rm "dummy-$VERSION/index.php"
 
 	# Merge directories
 	cp -R "typo3_src-$VERSION/" "typo3_src+dummy-$VERSION"
