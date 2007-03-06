@@ -48,7 +48,7 @@ In other words: You can have several TYPO3 installations with just one
 source package. A typical directory structure looks like this:
 
 /var/www/typo3_src-3.8.1/   # the untared 3.8.0 source package
-/var/www/typo3_src-4.0/     # the untared 4.0 source package
+/var/www/typo3_src-4.1/     # the untared 4.1 source package
 /var/www/installation1/     # the untared dummy package of a TYPO3
                             # installation running on TYPO3 3.8.1
     /typo3_src  --> ../typo3_src-3.8.1/   # a symlink to the 3.8.1 source
@@ -57,8 +57,8 @@ source package. A typical directory structure looks like this:
     /fileadmin/
     /.../
 /var/www/installation2/     # the untared dummy package of a TYPO3
-                            # installation running on TYPO3 4.0
-    /typo3_src  --> ../typo3_src-4.0/     # a symlink to the 4.0 source
+                            # installation running on TYPO3 4.1
+    /typo3_src  --> ../typo3_src-4.1/     # a symlink to the 4.1 source
     /typo3conf/
     /typo3temp/
     /fileadmin/
@@ -201,4 +201,4 @@ can do what is necessary. You could also volunteer to help with the work!
     Unix related additions made by Michael Stucki and some Wiki users:
     http://wiki.typo3.org/index.php/Tgz-INSTALL.txt
 
--- Michael Stucki <michael@typo3.org>  Sun,  26 Mar 2006  22:10:53 +0100
+-- Michael Stucki <michael@typo3.org>  Tue, 06 Mar 2007  01:22:12 +0100

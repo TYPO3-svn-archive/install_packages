@@ -74,7 +74,7 @@ DO_ZIP=1
 #FORCE_VERSION=4.1.0RC2
 
 # Files that should be removed from the result:
-REMOVE_FILES="src CVS CVSreadme.txt .svn \*.webprj \*.orig \*~"
+REMOVE_FILES="src CVS SVNreadme.txt .svn \*.webprj \*.orig \*~"
 
 # Files that must be made executable:
 EXEC_FILES="\*.phpcron \*.phpsh \*.sh \*.pl"

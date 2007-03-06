@@ -1,93 +1,12 @@
-RELEASE NOTES FOR TYPO3 4.0
+RELEASE NOTES FOR TYPO3 4.1
 ****************************
 
-This page contains all important 4.0 specific information.
+The release notes for this version have been published on typo3.org:
+http://typo3.org/development/articles/release-notes-41/
 
-Symlink Change
-===============
-
-* Starting with TYPO3 4.0beta3, internal symlinks are not used
-  anymore. This means, that there will be no symlinks inside the
-  typo3_src/ folder. However, some extensions are not correctly
-  adopted to the new scheme, therefore you may want to add the
-  symlinks again to prevent any problems.
-
-* If you are upgrading from an older version, you will need to change
-  the symlink index.php (pointing to tslib/index_ts.php in TYPO3_3.8.1
-  and before) to point to typo3_src/index.php in TYPO3 4.0:
-
-  $ rm index.php
-  $ ln -s typo3_src/index.php index.php
-
-  (provided you have linked the "typo3_src" folder to your TYPO3 source
-  folder, e.g. "typo3_src-4.0/")
-
-* Please keep in mind that there will be no symlinks anymore from the
-  provided fonts nimbus.ttf and vera.ttf to arial.ttf and verdana.ttf. If
-  you depend on these fonts, you need to upload the original fonts
-  manually or create symlinks to these look-alike-fonts in t3lib/fonts/.
-
-
-local/global/system extensions
-===============================
-
-* Again, some extensions have been changed to system extensions. This
-  means, they are now located in typo3/sysext/. However, since
-  typo3conf/ext/ and typo3/ext/ will take precedence, make sure that the
-  extensions are not kept in these directories anymore.
-
-* If you want to remove extensions from typo3conf/ext/ or typo3/ext/
-  because they are now a system extension (rtehtmlarea for example) then
-  don't forget to remove the temp_CACHED_* files in typo3conf/ manually.
-
-
-Localization/Language packs
-============================
-
-* The old csh_[lang-key] extensions are not used anymore.
-
-* Please go to the EM and use the new function "Translation
-  handling". There you just select all languages you want to to carry
-  within your installation.
-
-* For one-time initial update or later synchronisation you need to use
-  the button "Update from repository".
-
-* On installing additional extensions later on the EM automatically
-  takes care to import the appropriate language-packs as selected (only
-  if available of course)! You only need to use the "Translation handling"
-  if you want to update/check lables with the translation-server
-
-
-Important UTF-8 database settings change
-=========================================
-
-* For using TYPO3 version 4.0, on a MySQL-4.1 (maybe other versions)
-  with a UTF-8 based database, please refer to the details of
-  http://bugs.typo3.org/view.php?id=1262.
-
-
-New Skin
-=========
-
-* TYPO3 Version 4.0 is shipped with a new default skin developed by Thomas
-  Murphy and the design team. It is enabled by default. If you would like
-  to switch back to the original skin you can just do so by uninstalling
-  the extension "t3skin" in the Extension Manager.
-
-
-Quickstart and Testsite packages
-=================================
-
-* Notice that the "Quickstart" and the "Testsite" packages are no longer
-  provided. Instead, you can get them as a T3D file which can be imported
-  using the Import/Export extension.
-  See http://typo3.org/download/packages/ for details.
-
-
-In case of any problems you should visit this page:
+In case of any problems you should also visit this page:
 http://wiki.typo3.org/index.php/Category:ReleaseNotes
 
 It contains links to updated and/or older release notes.
 
--- Michael Stucki <michael@typo3.org>  Tue, 05 Dec 2006 01:34:51 +0100
+-- Michael Stucki <michael@typo3.org>  Tue, 06 Mar 2007 01:19:25 +0100

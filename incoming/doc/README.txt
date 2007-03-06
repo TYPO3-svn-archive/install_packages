@@ -1,8 +1,6 @@
 1. About this package
 ******************************************
 
-Refer to PACKAGE.txt to get some short information about this package.
-
 If you are new to TYPO3 it's strongly recommended that you first download
 and import the "quickstart" package, that contains a fully functional
 site.
@@ -140,12 +138,12 @@ first.
   This is the place to go for TYPO3 developers and admins, mailing list
   archives etc.
 
-  http://lists.netfielders.de
-  *******************************
+  http://typo3.org/community/mailing-lists/
+  *********************************************
   The TYPO3 mailinglist information site.
 
   There is an archive of some mailinglists at typo3.org:
-  http://typo3.org/index.php?id=1422
+  http://support.typo3.org/
 
   It is recommended to use a newsreader for posting to any of these lists:
   news://news.netfielders.de/
@@ -189,4 +187,4 @@ the support of the growing community. See details on typo3.com.
 (c) Nigel Jackson, Ingmar Schlecht
     A few additions & modifications made by Michael Stucki and others
 
--- Michael Stucki <michael@typo3.org>  Sun,  26 Mar 2006 21:33:25 +0100
+-- Michael Stucki <michael@typo3.org>  Tue, 06 Mar 2007 01:21:58 +0100
