@@ -26,6 +26,8 @@ class packaging {
 		$this->headers('Pre-release checklist');
 		echo <<<EOF
 * Did you update NEWS.txt?
+* In case of a new major/minor release: Have you updated the login images for t3skin and default?
+	* If not, mail to Rasmus Skjoldan (rasmus@bee3.com)
 * Have the release notes been written?
 	* If not, mail to Thomas Esders (pechgehabt at gmail.com)
 * Is the press release ready?
