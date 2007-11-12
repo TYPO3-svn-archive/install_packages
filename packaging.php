@@ -26,12 +26,18 @@ class packaging {
 		$this->headers('Pre-release checklist');
 		echo <<<EOF
 * Did you update NEWS.txt?
-* In case of a new major/minor release: Have you updated the login images for t3skin and default?
-	* If not, mail to Rasmus Skjoldan (rasmus@bee3.com)
+* In case of a new major/minor release: 
+	* Have you updated the login images for t3skin and default?
+	-> If not, mail to Rasmus Skjoldan (rasmus at bee3.com)
+	* Have you updated the tsconfig_help with latest data from 
+	  doc_core_tsref and doc_core_tsconfig? 
+	-> If not, use the Help->TypoScript Help module to generate
+	   the SQL data. Ask Francois Suter <fsuter at cobweb.ch>
+	   when in doubt.
 * Have the release notes been written?
-	* If not, mail to Thomas Esders (pechgehabt at gmail.com)
+	-> If not, mail to Thomas Esders (pechgehabt at gmail.com)
 * Is the press release ready?
-	* If not, mail to Sander Vogels (press at typo3.org)
+	-> If not, mail to Sander Vogels (press at typo3.org)
 * Did you create the new branch in case of a minor release?
 
 EOF;
