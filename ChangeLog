@@ -1,3 +1,7 @@
+2007-11-15  Ingmar Schlecht  <ingmar@typo3.org>
+
+	* Use $this->exec() always instead of just exec() to always get the questions whether the command should be executed.
+
 2007-11-12  Ingmar Schlecht  <ingmar@typo3.org>
 
 	* Update checklist for things to do before a release: Update tsconfig_help data SQL file

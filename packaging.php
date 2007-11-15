@@ -71,7 +71,7 @@ EOF;
 	function updateChangeLog()	{
 			// clean up working directory
 		$this->writeMessage('Cleaning up working directory');
-		exec("rm -Rf work/*; rm -Rf work/.*");
+		$this->exec("rm -Rf work/*; rm -Rf work/.*");
 			// SVN checkout
 		if ($this->information['branch'] == 'trunk')
 			$svnRoot = $this->baseSVN.'trunk';
@@ -129,20 +129,20 @@ EOF;
 
 	function createDiffstat()	{
 		$this->headers('Creating diffstat');
-		exec('rm -Rf diffstat/*');
+		$this->exec('rm -Rf diffstat/*');
 		$versions = explode(',',$this->information['previousVersions']);
 		if (!count($versions)) return;
 		foreach ($versions as $version)	{
 			$this->writeMessage('Downloading and extracting version '.$version);
 			$version = trim($version);
-			exec('cd diffstat; wget -T 5 http://downloads.sourceforge.net/typo3/typo3_src-'.$version.'.tar.gz; tar -xzvf typo3_src-'.$version.'.tar.gz');
+			$this->exec('cd diffstat; wget -T 5 http://downloads.sourceforge.net/typo3/typo3_src-'.$version.'.tar.gz; tar -xzvf typo3_src-'.$version.'.tar.gz');
 
 			$this->writeMessage('creating diff and saving it to diffstat/diff-tmp.diff');
-			exec('diff -ruN --exclude=".svn" diffstat/typo3_src-'.$version.' work/ > diffstat/diff-tmp.diff');
+			$this->exec('diff -ruN --exclude=".svn" diffstat/typo3_src-'.$version.' work/ > diffstat/diff-tmp.diff');
 
 			$this->writeMessage('Creating diffstat and saving it to diffstat/diffstat-'.$version.'-'.$this->information['versionNumber'].'.txt');
-			exec('diffstat diffstat/diff-tmp.diff > diffstat/diffstat-'.$version.'-'.$this->information['versionNumber'].'.txt');
-			exec('rm -f diffstat/diff-tmp.diff');
+			$this->exec('diffstat diffstat/diff-tmp.diff > diffstat/diffstat-'.$version.'-'.$this->information['versionNumber'].'.txt');
+			$this->exec('rm -f diffstat/diff-tmp.diff');
 		}
 
 
