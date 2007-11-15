@@ -159,7 +159,7 @@ EOF;
 		);
 		$files = 'packaging/target/'.implode(' packaging/target/',$files);
 		// TODO: copy md5sums and add text: "See README.txt for details. MD5 checksums:"
-		$this->exec('copher/copher.pl '.$this->copherArgs.' --user='.$this->information['sf_user'].' --password='.$this->information['sf_pass'].' --release="TYPO3 '.$this->information['versionNumber'].'" --date='.strftime('%Y-%m-%d').' --notes=packaging/target/md5sum.txt --changelog=work/NEWS.txt '.$files);
+		$this->exec('copher/copher.pl '.$this->copherArgs.' --user='.$this->information['sf_user'].' --password='.$this->information['sf_pass'].' --release="TYPO3 '.$this->information['versionNumber'].'" --date='.strftime('%Y-%m-%d').' --notes=packaging/target/md5sums.txt --changelog=work/NEWS.txt '.$files);
 	}
 
 	function headers($text)	{
