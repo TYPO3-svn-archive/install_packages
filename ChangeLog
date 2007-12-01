@@ -1,14 +1,18 @@
+2007-12-02  Ingmar Schlecht  <ingmar@typo3.org>
+
+	* Update checklist of things to do before a release: "We should always update the ext_emconf.php files of all sysexts before releasing new versions, because otherwise the EM shows "A difference between the originally installed version and the current was detected!" if files have been changed, which confuses the user and makes it impossible to see if there have really been manual changes.)"
+
 2007-11-15  Ingmar Schlecht  <ingmar@typo3.org>
 
 	* Use $this->exec() always instead of just exec() to always get the questions whether the command should be executed.
 
 2007-11-12  Ingmar Schlecht  <ingmar@typo3.org>
 
-	* Update checklist for things to do before a release: Update tsconfig_help data SQL file
+	* Update checklist of things to do before a release: Update tsconfig_help data SQL file
 
 2007-06-08  Michael Stucki  <michael@typo3.org>
 
-	* Update checklist for things to do before a release: Get in touch with Rasmus Skjoldan for getting a new login image
+	* Update checklist of things to do before a release: Get in touch with Rasmus Skjoldan for getting a new login image
 
 2007-03-06  Michael Stucki  <michael@typo3.org>
 

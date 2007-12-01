@@ -36,9 +36,16 @@ class packaging {
 	   when in doubt.
 * Have the release notes been written?
 	-> If not, mail to Thomas Esders (pechgehabt at gmail.com)
+(Idea by Ingmar, 02.12.07: We should always update the ext_emconf.php
+ files of all sysexts before releasing new versions, because otherwise
+ the EM shows "A difference between the originally installed version 
+ and the current was detected!" if files have been changed, which 
+ confuses the user and makes it impossible to see if there have really
+ been manual changes.)
 * Is the press release ready?
 	-> If not, mail to Sander Vogels (press at typo3.org)
-* Did you create the new branch in case of a minor release?
+* Did you create the new branch in case of a minor release? This
+  script does *not* do it for you automatically!
 
 EOF;
 		if ($this->askQuestion('Is everything correct? (y/n)') != 'y')
