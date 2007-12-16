@@ -1,3 +1,7 @@
+2007-12-16  Ingmar Schlecht  <ingmar@typo3.org>
+
+	* Update checklist of things to do before a release: Add the new version to the "TYPO3 Core" project in the Bugtracker.
+
 2007-12-02  Ingmar Schlecht  <ingmar@typo3.org>
 
 	* Update checklist of things to do before a release: "We should always update the ext_emconf.php files of all sysexts before releasing new versions, because otherwise the EM shows "A difference between the originally installed version and the current was detected!" if files have been changed, which confuses the user and makes it impossible to see if there have really been manual changes.)"

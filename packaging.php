@@ -46,6 +46,7 @@ class packaging {
 	-> If not, mail to Sander Vogels (press at typo3.org)
 * Did you create the new branch in case of a minor release? This
   script does *not* do it for you automatically!
+* Add the new version to the "TYPO3 Core" project in the Bugtracker.
 
 EOF;
 		if ($this->askQuestion('Is everything correct? (y/n)') != 'y')
