@@ -19,10 +19,10 @@ class packaging {
 
 		$this->package();
 
-		$this->postRelease_updateTypoVersion();
-
 		$this->createDiffstat();
 		$this->uploadToSourceforge();
+
+		$this->postRelease_updateTypoVersion();
 		$this->displayEMailTemplate();
 	}
 	function preReleaseCheck()	{
@@ -192,7 +192,7 @@ EOF;
 
 	function displayEMailTemplate() {
 		echo '
-==========================================================
+================= Announcement Template ==================
 Dear TYPO3 users,
 
 TYPO3 version '.$this->information['versionNumber'].' is ready for download. It is a maintenance release
