@@ -16,6 +16,7 @@ class packaging {
 		$this->fetchInformation();
 		$this->updateChangeLog();
 		$this->createSVNtag();
+		$this->postUpdateTypoVersion();
 
 		$this->package();
 
@@ -63,6 +64,7 @@ EOF;
 		$this->information['name'] = $this->askQuestion('Enter your name');
 		$this->information['email'] = $this->askQuestion('Enter your email adress');
 		$this->information['versionNumber'] = $this->askQuestion('Which version number should be packaged? (f.e. 4.1.1 or 4.1.0 or 4.1.0beta3 or 4.2.0RC1)');
+		$this->information['nextVersion'] = $this->askQuestion('NEW!!! Enter next version number (e.g. 4.1.7). This will be appended with "-dev" and used as the version number in the branch (or trunk) AFTER this version is released.');
 		$this->information['branch'] = str_replace('.', '-', $this->askQuestion('Which branch should be checked out? (f.e. 4.0 or trunk, please enter exactly like in the example)'));
 		$this->information['previousVersions'] = $this->askQuestion('DIFFSTAT: enter previous versions (comma seperated, f.e. 4.0.0 or 4.0.0beta3)');
 		$passwordTemp = $this->information['sf_pass'];
@@ -135,6 +137,14 @@ EOF;
 		}
 		$this->exec('cd work; svn copy --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Tagging TYPO3 '.$this->information['versionNumber'].'" '.$this->baseSVN.$branchPath.' '.$this->baseSVN.'tags/TYPO3_'.str_replace('.','-',$this->information['versionNumber']).' ; cd ..');
 		$this->writeMessage('successful!');
+	}
+
+		// This is updating the TYPO_VERSION again after the release has been tagged. If you e.g. just released version 4.1.3, the TYPO_VERSION will be set to 4.1.4-dev in this step
+	function postUpdateTypoVersion() {
+		$nextVersionString = $this->information['nextVersion'].'-dev';
+		$this->updateTypoVersion($nextVersionString);
+		$this->writeMessage('Committing to SVN');
+		$this->exec('cd work; svn commit --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Updating TYPO3 version number to  '.$nextVersionString.' after release of '.$this->information['versionNumber'].'"; cd ..');
 	}
 
 	function package()	{
