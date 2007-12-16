@@ -16,9 +16,10 @@ class packaging {
 		$this->fetchInformation();
 		$this->updateChangeLog();
 		$this->createSVNtag();
-		$this->postUpdateTypoVersion();
 
 		$this->package();
+
+		$this->postRelease_updateTypoVersion();
 
 		$this->createDiffstat();
 		$this->uploadToSourceforge();
@@ -141,11 +142,11 @@ EOF;
 	}
 
 		// This is updating the TYPO_VERSION again after the release has been tagged. If you e.g. just released version 4.1.3, the TYPO_VERSION will be set to 4.1.4-dev in this step
-	function postUpdateTypoVersion() {
+	function postRelease_updateTypoVersion() {
 		$nextVersionString = $this->information['nextVersion'].'-dev';
 		$this->updateTypoVersion($nextVersionString);
 		$this->writeMessage('Committing to SVN');
-		$this->exec('cd work; svn commit --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Updating TYPO3 version number to  '.$nextVersionString.' after release of '.$this->information['versionNumber'].'"; cd ..');
+		$this->exec('cd work; svn commit --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Updating version number to  '.$nextVersionString.' after release of '.$this->information['versionNumber'].'"; cd ..');
 	}
 
 	function package()	{
