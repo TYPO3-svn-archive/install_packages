@@ -4,6 +4,7 @@
 	* Code cleanup, simplyfying switch for trunk vs. branch releases
 	* Put updating of TYPO_VERSION to separate function updateTypoVersion()
 	* Automatic update of the TYPO_VERSION in config_default.php after the release has been made to the next version number appended with "-dev".
+	* Added function displayEMailTemplate() that displays an example email to send out as an announcement
 
 2007-12-02  Ingmar Schlecht  <ingmar@typo3.org>
 

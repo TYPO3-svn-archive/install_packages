@@ -22,6 +22,7 @@ class packaging {
 
 		$this->createDiffstat();
 		$this->uploadToSourceforge();
+		$this->displayEMailTemplate();
 	}
 	function preReleaseCheck()	{
 		$this->headers('Pre-release checklist');
@@ -186,6 +187,33 @@ EOF;
 		$files = 'packaging/target/'.implode(' packaging/target/',$files);
 		// TODO: copy md5sums and add text: "See README.txt for details. MD5 checksums:"
 		$this->exec('copher/copher.pl '.$this->copherArgs.' --user='.$this->information['sf_user'].' --password='.$this->information['sf_pass'].' --release="TYPO3 '.$this->information['versionNumber'].'" --date='.strftime('%Y-%m-%d').' --notes=packaging/target/md5sums.txt --changelog=work/NEWS.txt '.$files);
+	}
+
+	function displayEMailTemplate() {
+		echo '
+==========================================================
+Dear TYPO3 users,
+
+TYPO3 version '.$this->information['versionNumber'].' is ready for download. It is a maintenance release
+of version 4.1 and therefore contains only bugfixes.
+
+For details about the release, see:
+http://wiki.typo3.org/index.php/'.$this->information['versionNumber'].'
+
+MD5 checksums:
+'.file_get_contents('packaging/target/md5sums.txt').'
+
+Download:
+http://typo3.org/download/packages/
+==========================================================
+
+Next steps:
+ - update the download links at typo3.org
+ - create the version number in the bugtracker if not already done
+ - send out the announcement to the TYPO3 Announce list
+ - send out the announcement to the dev, teams.core, german and english Newsgroup
+
+';
 	}
 
 	function headers($text)	{
