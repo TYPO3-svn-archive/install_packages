@@ -122,10 +122,11 @@ EOF;
 	function createSVNtag()	{
 		$this->headers('Creating SVN Tag');
 		if ($this->information['branch'] == 'trunk')	{
-		    $this->exec('cd work; svn copy --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Tagging TYPO3 '.$this->information['versionNumber'].'" '.$this->baseSVN.'trunk/ '.$this->baseSVN.'tags/TYPO3_'.str_replace('.','-',$this->information['versionNumber']).' ;cd ..');
+			$branchPath = 'trunk/';
 		} else {
-		    $this->exec('cd work; svn copy --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Tagging TYPO3 '.$this->information['versionNumber'].'" '.$this->baseSVN.'branches/TYPO3_'.$this->information['branch'].' '.$this->baseSVN.'tags/TYPO3_'.str_replace('.','-',$this->information['versionNumber']).' ; cd ..');
+			$branchPath = 'branches/TYPO3_'.$this->information['branch'];
 		}
+		$this->exec('cd work; svn copy --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Tagging TYPO3 '.$this->information['versionNumber'].'" '.$this->baseSVN.$branchPath.' '.$this->baseSVN.'tags/TYPO3_'.str_replace('.','-',$this->information['versionNumber']).' ; cd ..');
 		$this->writeMessage('successful!');
 	}
 

@@ -1,6 +1,7 @@
 2007-12-16  Ingmar Schlecht  <ingmar@typo3.org>
 
 	* Update checklist of things to do before a release: Add the new version to the "TYPO3 Core" project in the Bugtracker.
+	* Code cleanup, simplyfying switch for trunk vs. branch releases
 
 2007-12-02  Ingmar Schlecht  <ingmar@typo3.org>
 
