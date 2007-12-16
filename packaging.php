@@ -102,21 +102,28 @@ EOF;
 		fclose($fp);
 		
 		    // SECOND STEP: update TYPO_VERSION
-		$this->writeMessage('Updating TYPO_VERSION in t3lib/config_default.php');
-		$configDefault = file_get_contents('work/t3lib/config_default.php');
-			// change version number
-		$newConfigDefault = preg_replace('/(\$TYPO_VERSION = )\'[^\']+/', '$1\''.$this->information['versionNumber'], $configDefault);
+		$this->updateTypoVersion($this->information['versionNumber']);
 		
 			// write t3lib/config_default.php
 		$fp = fopen('work/t3lib/config_default.php', 'w');
 		fwrite($fp, $newConfigDefault);
 		fclose($fp);
 		
-		
-
 			// SVN commit
 		$this->writeMessage('Committing to SVN');
 		$this->exec('cd work; svn commit --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Release of TYPO3 '.$this->information['versionNumber'].'";cd ..');
+	}
+
+	function updateTypoVersion($targetVersion) {
+		$this->writeMessage('Updating TYPO_VERSION to '.$targetVersion.' in t3lib/config_default.php');
+		$configDefault = file_get_contents('work/t3lib/config_default.php');
+			// change version number
+		$newConfigDefault = preg_replace('/(\$TYPO_VERSION = )\'[^\']+/', '$1\''.$targetVersion, $configDefault);
+		
+			// write t3lib/config_default.php
+		$fp = fopen('work/t3lib/config_default.php', 'w');
+		fwrite($fp, $newConfigDefault);
+		fclose($fp);
 	}
 
 	function createSVNtag()	{
