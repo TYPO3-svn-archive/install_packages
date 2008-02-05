@@ -108,11 +108,6 @@ EOF;
 		    // SECOND STEP: update TYPO_VERSION
 		$this->updateTypoVersion($this->information['versionNumber']);
 		
-			// write t3lib/config_default.php
-		$fp = fopen('work/t3lib/config_default.php', 'w');
-		fwrite($fp, $newConfigDefault);
-		fclose($fp);
-		
 			// SVN commit
 		$this->writeMessage('Committing to SVN');
 		$this->exec('cd work; svn commit --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Release of TYPO3 '.$this->information['versionNumber'].'";cd ..');

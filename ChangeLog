@@ -1,3 +1,7 @@
+2008-02-05  Ingmar Schlecht  <ingmar@typo3.org>
+
+	* Fixed bug that config_default.php was emptied
+
 2007-12-16  Ingmar Schlecht  <ingmar@typo3.org>
 
 	* Update checklist of things to do before a release: Add the new version to the "TYPO3 Core" project in the Bugtracker.
