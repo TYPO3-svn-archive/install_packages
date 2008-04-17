@@ -71,7 +71,7 @@ DO_TGZ=1
 DO_ZIP=1
 
 # If you set this value this will override the version number (instead of using the version found in t3lib/config_default.php)
-#FORCE_VERSION=4.1.0RC2
+#FORCE_VERSION=4.2.0alpha3
 
 # Files that should be removed from the result:
 REMOVE_FILES="src CVS SVNreadme.txt .svn \*.webprj \*.orig \*~"
