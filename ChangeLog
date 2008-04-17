@@ -1,3 +1,8 @@
+2008-04-17  Michael Stucki  <michael@typo3.org>
+
+	* Update documentation referring to ImageMagick 4.2.9 - it's not supported anymore, so do not recommend it!
+	* Replace hardcoded branch name in announcement email template
+
 2008-02-05  Ingmar Schlecht  <ingmar@typo3.org>
 
 	* Fixed bug that config_default.php was emptied

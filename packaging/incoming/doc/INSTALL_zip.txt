@@ -84,15 +84,15 @@ Must have...
 
 - TYPO3 source distribution (tgz for Unix/Linux only, ZIP for Windows or Linux)...get this from http://typo3.org/ or http://sourceforge.net/project/showfiles.php?group_id=20391
 - Web server - Apache is recommended & preferred, although TYPO3 will run under IIS...www.apache.org or www.microsoft.com
-- PHP4...get the source code or binaries from www.php.net. Some of the TYPO3 community have various versions, some with - ImageMagick or GD...post a message to the install mailing list...RPM's for Linux are available from many sources, but those compiled by Troels Arvin are easy to install, and a GD version with GIF is available (http://rpms.arvin.dk/php/ and http://rpms.arvin.dk/gd-with_gif/)
+- PHP 5.2...get the source code or binaries from www.php.net. Some of the TYPO3 community have various versions, some with GD...post a message to the install mailing list...RPM's for Linux are available from many sources, but those compiled by Troels Arvin are easy to install, and a GD version with GIF is available (http://rpms.arvin.dk/php/ and http://rpms.arvin.dk/gd-with_gif/)
 - MySQL...go to www.mysql.com
 - Database user extensions...as required, and compiled with/installed under PHP
 
 Highly recommended for full functionality...
 
-- ImageMagick...version 4.2.9 rpm & windows versions are available from http://typo3.org/, latest version from http://www.imagemagick.org/
+- GraphicsMagick... latest version is available at http://www.graphicsmagick.org/
 - GD/FreeType (compiled into PHP) from http://www.boutell.com/gd/ (GD) and http://www.freetype.org/ (FreeType)
-- A PHP cache (e.g. Turck-MMcache) from http://turck-mmcache.sourceforge.net/. This is compiled into PHP, and makes import/export actions, and connections to the online extension repository smaller/faster, by compressing the data
+- A PHP cache (e.g. eAccelerator) from http://eaccelerator.net/. This is compiled into PHP, and makes import/export actions, and connections to the online extension repository smaller/faster, by compressing the data
 - Apache extensions mod_gzip/mod_rewrite: http://www.apache.org/
 
 Other tools...
@@ -105,7 +105,7 @@ THINGS TO BE AWARE OF
 =====================
 
 - Image processing - TYPO3 is renowned for its capability to manipulate graphics. However, if you only intend to develop a plain, text-based web site you don't need to either install the server-side software that is required for image processing, or enable it within TYPO3. Be aware that you will be missing one of the great features of TYPO3
-- ImageMagick - TYPO3 versions including and after 3.5 will happily work with the latest versions of ImageMagick (currently 5.x.x). However, there is a drawback with using this version. The RPM (for Linux) is compiled without LZW compression for GIF files, due to the patent issues with Unisys...this will slow down performance slightly. For the best performance on Linux, you can install version 4.2.9 to /usr/X11R6/bin/, and a later version to /usr/bin/...TYPO3 is setup to use ImageMagick installed to these locations. The Windows version of ImageMagick 4.2.9 available from http://typo3.org/ has LZW compression. The alternative to all this is to use the latest version of ImageMagick, and use a version of GD that has LZW for GIF!
+- GraphicsMagick / ImageMagick - TYPO3 will happily work with the latest versions (GraphicsMagick 1.1 or higher, ImageMagick 5.x or higher)
 - GD - this is compiled into PHP, and activated by installing the extension in the php.ini file. On Linux you can re-compile PHP yourself with any version of GD, but for Windows users you will probably use a pre-compiled binary. GD Versions after 1.8.4 do not have GIF support, again due to the patent issues with Unisys. Note that if your build of PHP has a later version of GD without GIF support, you can't simply obtain an earlier PHP extension and use it, without recompiling PHP
 - PHP 1 -  there have been problems reported when using the very latest version (4.3.x)
 - PHP 2 - TYPO3 will not currently run with the memory_limit directive in php.ini set to less than 8mb
@@ -121,7 +121,7 @@ Before you can install TYPO3, you have to have a working web server...
 3 - Install PHP & configure the web server to use it (see the PHP documentation)
 4 - Create a plain text file...enter 1 line as follows...<? phpinfo() ?>. Save the file in your web site's root as phpinfo.php
 5 - In your web browser hit http://[your.site.name]/phpinfo.php. You should see a long page listing lots of information about PHP. If you don't, re-check the PHP configuration in your web server
-6 - Install ImageMagick (see the ImageMagick documentation)
+6 - Install GraphicsMagick or ImageMagick
 7 - Install & test MySQL (see the MySQL documentation - mysql.org)
 8 - Install a PHP accelerator if you are going to use one (phpaccelerator.com, zend.com)
 9 - Re-check your PHP configuration as in step 5. Scroll down the page...you should see a section titled "mysql" (if you don't, mysql is either not running, or not installed properly (support is automatic in PHP, so you don't have to do anything). Further down the page you should find a section called "gd". This will show you what support your version of GD is giving you. Ideally you want to see FreeType, GIF, JPEG, PNG all enabled...if GIF is missing, your version of GD doesn't support it (see above). If you don't see a section for gd at all, check that you have enabled the gd extension in your php.ini file
@@ -144,7 +144,7 @@ This package contains a pre-built site with loads of examples of what TYPO3 can 
 2 - Set up your web server to point to the correct location. Set the default document to be index.php (this is done with the DirectoryIndex directive in Apache)
 3 - If you are using Linux: ensure the following files & folders are writable by the server.../typo3temp, /typo3/temp, /typo3conf/localconf.php (chmod 755 or 777)
     If you are using Windows: Give IUSR_<machinename> read & execute permissions on the same folders like listed above.
-    In order to use the PHP exec() function that uses the Windows shell (usually CMD.EXE) to call the Imagemagick executables, you need to give the IUSR_MachineName account Read and Execute permissions on CMD.EXE
+    In order to use the PHP exec() function that uses the Windows shell (usually CMD.EXE) to call the GraphicsMagick executables, you need to give the IUSR_MachineName account Read and Execute permissions on CMD.EXE
 4 - If you are setting up TYPO3 from anywhere other than on the server itself (where you can use http://127.0.0.1 as the address), open /typo3/install/index.php in your text editor and comment out lines 40 & 41 (adding /* at the beginning of the blank line before line 40, and */ on the blank line after line 41)
 5 - Open your web browser and hit http://[your.site.name] or http://127.0.0.1. You'll initially see an error message page, but will be immediately re-directed to the 1-2-3 Install Tool
 6 - Enter the information...

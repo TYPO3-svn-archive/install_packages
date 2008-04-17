@@ -191,10 +191,10 @@ EOF;
 Dear TYPO3 users,
 
 TYPO3 version '.$this->information['versionNumber'].' is ready for download. It is a maintenance release
-of version 4.1 and therefore contains only bugfixes.
+of version '.preg_replace('/^(.*)\.[\d]+$/','$1',$this->information['versionNumber']).' and therefore contains only bugfixes.
 
 For details about the release, see:
-http://wiki.typo3.org/index.php/'.$this->information['versionNumber'].'
+http://wiki.typo3.org/TYPO3_'.$this->information['versionNumber'].'
 
 MD5 checksums:
 '.file_get_contents('packaging/target/md5sums.txt').'

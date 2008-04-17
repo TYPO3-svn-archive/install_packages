@@ -53,7 +53,7 @@ already available, or writing your own.
 TYPO3 is based upon PHP4, and uses a MySQL database. If you want to use
 the graphics functions (which are highly recommended) you will need the
 PHP GDlib extension, and the serverside image processing program
-ImageMagick or GraphicsMagick (that are both available for almost all
+GraphicsMagick or ImageMagick (that are both available for almost all
 operating systems). For more information regarding these requirements see
 the INSTALL.txt file in this folder.
 
