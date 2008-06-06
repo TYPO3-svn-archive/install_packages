@@ -9,7 +9,7 @@
 // typo_version uU erhoehen// remove the comments from all exec() or $this->exec() calls
 class packaging {
 	var $information;
-	var $baseSVN = 'https://typo3.svn.sourceforge.net/svnroot/typo3/TYPO3core/';
+	var $baseSVN = 'https://svn.typo3.org/TYPO3v4/Core/trunk/';
 	var $copherArgs = ' --project=typo3 --group-id=20391 --package="TYPO3 Source" --package-id=14557 --hidden';
 	function start()	{
 		$this->preReleaseCheck();
@@ -62,6 +62,8 @@ EOF;
 		$this->information['sf_user'] = $this->askQuestion('Enter SF.net username');
 		exec('stty -echo'); // do not show the password on the shell
 		$this->information['sf_pass'] = $this->askQuestion('Enter SF.net password');
+		$this->information['t3o_user'] = $this->askQuestion('Enter typo3.org username');
+		$this->information['t3o_pass'] = $this->askQuestion('Enter typo3.org password');
 		exec('stty echo');
 		$this->information['name'] = $this->askQuestion('Enter your name');
 		$this->information['email'] = $this->askQuestion('Enter your email adress');
@@ -69,11 +71,15 @@ EOF;
 		$this->information['nextVersion'] = $this->askQuestion('NEW!!! Enter next version number (e.g. 4.1.7). This will be appended with "-dev" and used as the version number in the branch (or trunk) AFTER this version is released.');
 		$this->information['branch'] = str_replace('.', '-', $this->askQuestion('Which branch should be checked out? (f.e. 4.0 or trunk, please enter exactly like in the example)'));
 		$this->information['previousVersions'] = $this->askQuestion('DIFFSTAT: enter previous versions (comma seperated, f.e. 4.0.0 or 4.0.0beta3)');
-		$passwordTemp = $this->information['sf_pass'];
+		$sfPasswordTemp = $this->information['sf_pass'];
+		$t3oPasswordTemp = $this->information['t3o_pass'];
 		$this->information['sf_pass'] = 'PASSWORD';
+		$this->information['t3o_pass'] = 'PASSWORD';
 		print_r($this->information);
-		$this->information['sf_pass'] = $passwordTemp;
-		unset($passwordTemp);
+		$this->information['sf_pass'] = $sfPasswordTemp;
+		$this->information['t3o_pass'] = $t3oPasswordTemp;
+		unset($sfPasswordTemp);
+		unset($t3oPasswordTemp);
 		if ($this->askQuestion('Is everything correct? (y/n)') != 'y')	{
 			$this->writeMessage('re-running "fetch information"');
 			$this->fetchInformation();
@@ -110,7 +116,7 @@ EOF;
 		
 			// SVN commit
 		$this->writeMessage('Committing to SVN');
-		$this->exec('cd work; svn commit --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Release of TYPO3 '.$this->information['versionNumber'].'";cd ..');
+		$this->exec('cd work; svn commit --username '.$this->information['t3o_user'].' --password '.$this->information['t3o_pass'].' --message "Release of TYPO3 '.$this->information['versionNumber'].'";cd ..');
 	}
 
 	function updateTypoVersion($targetVersion) {
@@ -132,7 +138,7 @@ EOF;
 		} else {
 			$branchPath = 'branches/TYPO3_'.$this->information['branch'];
 		}
-		$this->exec('cd work; svn copy --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Tagging TYPO3 '.$this->information['versionNumber'].'" '.$this->baseSVN.$branchPath.' '.$this->baseSVN.'tags/TYPO3_'.str_replace('.','-',$this->information['versionNumber']).' ; cd ..');
+		$this->exec('cd work; svn copy --username '.$this->information['t3o_user'].' --password '.$this->information['t3o_pass'].' --message "Tagging TYPO3 '.$this->information['versionNumber'].'" '.$this->baseSVN.$branchPath.' '.$this->baseSVN.'tags/TYPO3_'.str_replace('.','-',$this->information['versionNumber']).' ; cd ..');
 		$this->writeMessage('successful!');
 	}
 
@@ -141,7 +147,7 @@ EOF;
 		$nextVersionString = $this->information['nextVersion'].'-dev';
 		$this->updateTypoVersion($nextVersionString);
 		$this->writeMessage('Committing to SVN');
-		$this->exec('cd work; svn commit --username '.$this->information['sf_user'].' --password '.$this->information['sf_pass'].' --message "Updating version number to  '.$nextVersionString.' after release of '.$this->information['versionNumber'].'"; cd ..');
+		$this->exec('cd work; svn commit --username '.$this->information['t3o_user'].' --password '.$this->information['t3o_pass'].' --message "Updating version number to  '.$nextVersionString.' after release of '.$this->information['versionNumber'].'"; cd ..');
 	}
 
 	function package()	{
@@ -222,7 +228,7 @@ Next steps:
 
 	function exec($exec_str)	{
 		$question = "Do you want me to run the following command now? (y/n)\n".chr(9);
-		$question .= str_replace($this->information['sf_pass'], 'PASSWORD', $exec_str);
+		$question .= str_replace(array($this->information['sf_pass'], $this->information['t3o_pass']), 'PASSWORD', $exec_str);
 		if ($this->askQuestion($question) == 'y')	{
 			exec($exec_str);
 		} else	{
