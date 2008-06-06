@@ -1,3 +1,7 @@
+2008-06-06  Ingmar Schlecht  <ingmar@typo3.org>
+
+	* Updated packaging script to work with new SVN repository after SVN migration to svn.typo3.org
+
 2008-04-17  Michael Stucki  <michael@typo3.org>
 
 	* Update documentation referring to ImageMagick 4.2.9 - it's not supported anymore, so do not recommend it!
