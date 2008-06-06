@@ -62,7 +62,9 @@ EOF;
 		$this->information['sf_user'] = $this->askQuestion('Enter SF.net username');
 		exec('stty -echo'); // do not show the password on the shell
 		$this->information['sf_pass'] = $this->askQuestion('Enter SF.net password');
+		exec('stty echo');
 		$this->information['t3o_user'] = $this->askQuestion('Enter typo3.org username');
+		exec('stty -echo'); // do not show the password on the shell
 		$this->information['t3o_pass'] = $this->askQuestion('Enter typo3.org password');
 		exec('stty echo');
 		$this->information['name'] = $this->askQuestion('Enter your name');
