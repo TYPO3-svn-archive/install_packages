@@ -9,7 +9,7 @@
 // typo_version uU erhoehen// remove the comments from all exec() or $this->exec() calls
 class packaging {
 	var $information;
-	var $baseSVN = 'https://svn.typo3.org/TYPO3v4/Core/trunk/';
+	var $baseSVN = 'https://svn.typo3.org/TYPO3v4/Core/';
 	var $copherArgs = ' --project=typo3 --group-id=20391 --package="TYPO3 Source" --package-id=14557 --hidden';
 	function start()	{
 		$this->preReleaseCheck();
